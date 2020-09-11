@@ -1,0 +1,12 @@
+---
+conf_file: nginx.conf
+conf_file_default: default.conf
+conf_directory: /etc/nginx
+service_file: nginx.service
+service_file_directory: /usr/lib/systemd/system/
+rpm_file_directory: /opt/Nginx_rpm
+nginx_version: 1.18.0
+nginx_install_dir: /opt/Nginx
+sbin_path: /usr/sbin/nginx
+error_log_path: /var/log/nginx/error.log
+pid_file: /run/nginx.pid
