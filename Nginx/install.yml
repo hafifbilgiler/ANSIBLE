@@ -1,0 +1,97 @@
+-
+  name: Started Nginx Installation
+  hosts: all
+  vars_prompt:
+    - name: internet
+      prompt: "Does your machine connet internet and have you rhel repository[yes/no]:"
+      private: no
+  tasks:
+    - include_vars: ./variable/vars.yml
+    - name: Create a directory for rpm files
+      when: internet == "no"
+      file:
+        path: "{{rpm_file_directory}}"
+        state: directory
+    - name: Copying file
+      when: internet == "no"
+      copy:
+       src: ./rpm_files/
+       dest: "{{rpm_file_directory}}"
+    - name: Install RPM Files
+      shell: |
+          yum localinstall .*rpm -y
+      args:
+       chdir: "{{ rpm_file_directory }}"
+    #- name: install nginx rpm from a local file
+    #  yum:
+    #    name:  "{{ rpm_file_directory }}/*"
+    #    state: present
+    - name: Create a directory for Nginx Installation
+      file:
+        path: "{{nginx_install_dir}}"
+        state: directory
+    - name: Copying Nginx tar.gz File
+      copy:
+       src: ./nginx/nginx-{{nginx_version}}.tar.gz
+       dest: "{{nginx_install_dir}}"
+    - name: Extract Nginx tar.gz file into
+      unarchive:
+        src: "{{nginx_install_dir}}/nginx-{{nginx_version}}.tar.gz"
+        dest: "{{nginx_install_dir}}"
+        remote_src: yes
+    - name: Remove Nginx Header
+      shell: |
+         sed -i 's@"nginx/"@"-/"@g' /opt/Nginx/nginx-1.18.0/src/core/nginx.h
+         sed -i 's@r->headers_out.server == NULL@0@g' /opt/Nginx/nginx-1.18.0/src/http/ngx_http_header_filter_module.c
+         sed -i 's@r->headers_out.server == NULL@0@g' /opt/Nginx/nginx-1.18.0/src/http/v2/ngx_http_v2_filter_module.c
+         sed -i 's@<hr><center>nginx</center>@@g' /opt/Nginx/nginx-1.18.0/src/http/ngx_http_special_response.c
+    - name: Install Dependcy Of Nginx
+      when: internet == "yes"
+      yum:
+       name:
+        - gcc
+        - openssl
+        - openssl-devel
+        - pcre
+        - pcre-devel
+       state: present
+    - name: Complying Nginx Source Code
+      shell: |
+        ./configure --prefix={{conf_directory}} --sbin-path={{sbin_path}} --conf-path={{conf_directory}}/{{conf_file}} --error-log-path={{error_log_path}} --pid-path={{pid_file}} --with-http_ssl_module
+         make
+         make install
+      args:
+        chdir: "{{nginx_install_dir}}/nginx-{{nginx_version}}"
+    - name: Copy Nginx Service File
+      template:
+        src: ./files/nginx.service
+        dest: "{{service_file_directory}}/{{service_file}}"
+        owner: root
+        group: root
+    - name: Copy Nginx Config File
+      template:
+        src: ./config/nginx.conf
+        dest: "{{conf_directory}}/{{conf_file}}"
+        owner: root
+        group: root
+    - name: Create a directory for Nginx Default And Other Config Files
+      file:
+        path: "{{conf_directory}}/conf.d"
+        state: directory
+    - name: Copy DEfault Nginx Config File
+      template:
+        src: ./config/default.conf
+        dest: "{{conf_directory}}/conf.d/{{conf_file_default}}"
+        owner: root
+        group: root
+    - name: Add the user Nginx
+      user:
+        name: nginx
+    - name: Enable Nginx Service
+      service:
+        name: nginx
+        enabled: yes
+    - name: Start service nginx
+      service:
+        name: nginx
+        state: started
