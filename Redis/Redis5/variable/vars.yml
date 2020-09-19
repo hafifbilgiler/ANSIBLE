@@ -1,0 +1,15 @@
+---
+conf_file: redis.conf
+conf_directory: /etc/redis
+service_file: redis.service
+service_file_dir: /usr/lib/systemd/system/
+redis_ver: 5.0.9
+redis_install_dir: /opt/Redis
+sbin_path: /usr/sbin/nginx
+error_log_path: /var/log/redis
+error_file: redis.log
+pid_file: /var/run/redis_6379.pid
+data_dir: /var/lib/redis
+ip_add: "Ip address of where redis server will be installed"
+port: "6379"
+supervised: systemd
