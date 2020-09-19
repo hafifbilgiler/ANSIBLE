@@ -1,0 +1,89 @@
+-
+  name: Started Redis Installation
+  hosts: all
+  tasks:
+    - include_vars: ./variable/vars.yml
+    - name: Create a directory for Redis Installation
+      file:
+        path: "{{conf_directory}}"
+        state: directory
+        owner: root
+        group: root
+    - name: Create a directory for Redis Configuration file
+      file:
+        path: "{{redis_install_dir}}"
+        state: directory
+        owner: root
+        group: root
+    - name: Create a directory for Redis Log file
+      file:
+        path: "{{error_log_path}}"
+        state: directory
+        owner: root
+        group: root
+    - name: Create a directory for Redis Data file
+      file:
+        path: "{{data_dir}}"
+        state: directory
+        owner: root
+        group: root
+    - name: Downloanding Redis5.0.9 Version On Remote Server
+      shell: |
+        wget http://download.redis.io/releases/redis-5.0.9.tar.gz
+      args:
+        chdir: "{{redis_install_dir}}"
+    - name: Extract Redis tar.gz file into installation dir
+      unarchive:
+        src: "{{redis_install_dir}}/redis-{{redis_ver}}.tar.gz"
+        dest: "{{redis_install_dir}}"
+        remote_src: yes
+    - name: Install Dependcy Of Redis
+      yum:
+       name:
+        - gcc
+        - make
+       state: present
+    - name: Complying Redis Source Code
+      shell: |
+         make
+         make install
+      args:
+        chdir: "{{redis_install_dir}}/redis-{{redis_ver}}"
+    - name: Copy Redis Service File
+      template:
+        src: ./files/{{service_file}}
+        dest: "{{service_file_dir}}/{{service_file}}"
+        owner: root
+        group: root
+    - name: Copy Redis Config File
+      template:
+        src: ./config/{{conf_file}}
+        dest: "{{conf_directory}}/{{conf_file}}"
+        owner: root
+        group: root
+    - name: Adding IP Address In Config File
+      lineinfile:
+        path: "{{conf_directory}}/{{conf_file}}"
+        regexp: '^bind 127.0.0.1'
+        line: bind {{ip_add}}
+    - name: Adding Port Number In Config File
+      lineinfile:
+        path: "{{conf_directory}}/{{conf_file}}"
+        regexp: '^port 6379'
+        line: bind {{port}}
+    - name: Adding Port Number In Config File
+      lineinfile:
+        path: "{{conf_directory}}/{{conf_file}}"
+        regexp: '^supervised'
+        line: supervised {{supervised}}
+    - name: Add the user Redis
+      user:
+        name: redis
+    - name: Enable Redis Service
+      service:
+        name: redis
+        enabled: yes
+    - name: Start service redis
+      service:
+        name: redis
+        state: started
