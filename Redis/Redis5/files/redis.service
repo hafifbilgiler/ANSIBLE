@@ -3,8 +3,8 @@ Description=Redis persistent key-value database
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/redis-server /etc/redis/redis.conf --supervised systemd
-ExecStop=/usr/libexec/redis-shutdown
+ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf --supervised systemd
+ExecStop=/usr/local/bin/redis-cli shutdown
 Type=notify
 User=redis
 Group=redis
