@@ -7,26 +7,26 @@
       file:
         path: "{{conf_directory}}"
         state: directory
-        owner: root
-        group: root
+        owner: redis
+        group: redis
     - name: Create a directory for Redis Configuration file
       file:
         path: "{{redis_install_dir}}"
         state: directory
-        owner: root
-        group: root
+        owner: redis
+        group: redis
     - name: Create a directory for Redis Log file
       file:
         path: "{{error_log_path}}"
         state: directory
-        owner: root
-        group: root
+        owner: redis
+        group: redis
     - name: Create a directory for Redis Data file
       file:
         path: "{{data_dir}}"
         state: directory
-        owner: root
-        group: root
+        owner: redis
+        group: redis
     - name: Downloanding Redis5.0.9 Version On Remote Server
       shell: |
         wget http://download.redis.io/releases/redis-5.0.9.tar.gz
@@ -59,8 +59,8 @@
       template:
         src: ./config/{{conf_file}}
         dest: "{{conf_directory}}/{{conf_file}}"
-        owner: root
-        group: root
+        owner: redis
+        group: redis
     - name: Adding IP Address In Config File
       lineinfile:
         path: "{{conf_directory}}/{{conf_file}}"
