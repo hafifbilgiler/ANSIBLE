@@ -1,0 +1,9 @@
+---
+master_ip: 192.168.56.102
+worker_ip: 192.168.56.104
+repo_file: kubernetes.repo
+initiate_file: initiate.sh
+selinux: /etc/selinux/config
+node_name1: k8smasternode
+node_name2: k8sworkernode
+host_file: /etc/hosts
