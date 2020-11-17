@@ -1,0 +1,14 @@
+- name: Started Installation Kubernetes
+  hosts: all
+  tasks:
+    - include_vars: ./variable/vars.yml
+- name: Include Docker Instalaltion Yaml File
+  import_playbook: ./tasks/docker.yaml
+- name: Include Preparing Yaml File To Prepare Machines
+  import_playbook: ./tasks/prepare_machine.yaml
+- name: Include Preparing Yaml File To Prepare Machines
+  import_playbook: ./tasks/prepare_kubernetes.yaml
+- name: Include Master Yaml File To Set Master Machine
+  import_playbook: ./tasks/master.yaml
+- name: Include Initiate Yaml File To Join Worker Node
+  import_playbook: ./tasks/initiate_cluster.yaml
