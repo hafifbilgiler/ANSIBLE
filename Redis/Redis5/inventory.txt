@@ -1,1 +1,4 @@
-target1 ansible_host= Your target machine ip address where redis server will be installed
+[master]
+target1 ansible_host="Your Master Node Ip Address"
+[worker]
+target2 ansible_host="Your Worker Node Ip Address"
