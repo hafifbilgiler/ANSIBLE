@@ -2,13 +2,13 @@
   hosts: all
   tasks:
     - include_vars: ./variable/vars.yml
-- name: Include Docker Instalaltion Yaml File
-  import_playbook: ./tasks/docker.yaml
-- name: Include Preparing Yaml File To Prepare Machines
-  import_playbook: ./tasks/prepare_machine.yaml
-- name: Include Preparing Yaml File To Prepare Machines
-  import_playbook: ./tasks/prepare_kubernetes.yaml
-- name: Include Master Yaml File To Set Master Machine
+- name: Include Docker Instalaltion Yml File
+  import_playbook: ./tasks/docker.yml
+- name: Include Preparing Yml File To Prepare Machines
+  import_playbook: ./tasks/prepare_machine.yml
+- name: Include Preparing Yml File To Prepare Machines
+  import_playbook: ./tasks/prepare_kubernetes.yml
+- name: Include Master Yml File To Set Master Machine
   import_playbook: ./tasks/master.yaml
-- name: Include Initiate Yaml File To Join Worker Node
-  import_playbook: ./tasks/initiate_cluster.yaml
+- name: Include Initiate Yml File To Join Worker Node
+  import_playbook: ./tasks/initiate_cluster.yml
