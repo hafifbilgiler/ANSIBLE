@@ -1,13 +1,14 @@
-- name: Started Master Node Settings
+- name: Started Worker Node Including For Master Node
   hosts: worker
   tasks:
     - include_vars: ../variable/vars.yml
-    - name: Kubeadm Image Pullig
+    - name: Copy Token File
       copy:
         src: /root/ANSIBLE/Kubernetes/tasks/token_file.txt
         dest: /root/
     - name: Cut Initiate Command
       shell: |
+         kubeadm reset -f
          rm -rf /root/initiate.sh
          cat /root/token_file.txt | tail -2 >> /root/initiate.sh
          sh /root/initiate.sh
