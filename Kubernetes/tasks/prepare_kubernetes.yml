@@ -1,0 +1,27 @@
+-
+  name: Started Prepare Of K8S Cluster
+  hosts: all
+  tasks:
+    - include_vars: ../variable/vars.yml
+    - name: Closing Selinux And Swap
+      shell: |
+       swapoff -a
+       sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+       setenforce 0
+       sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' {{selinux}}
+    - name: Copying Kubernetes Repo file
+      copy:
+       src: ../files/kubernetes.repo
+       dest: /etc/yum.repos.d/kubernetes.repo
+       mode: '0644'
+    - name: Install And Enable Kubelet
+      shell: |
+       yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+       systemctl enable kubelet
+       systemctl start kubelet
+       bash -c 'cat <<EOF >  /etc/sysctl.d/k8s.conf
+       net.bridge.bridge-nf-call-ip6tables = 1
+       net.bridge.bridge-nf-call-iptables = 1
+       EOF'
+       sysctl --system
+       lsmod | grep br_netfilter
