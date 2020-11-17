@@ -1,0 +1,30 @@
+- name: Started Docker Installation
+  hosts: master
+  vars_prompt:   
+    - name: reset
+      prompt: "Do you want enable reset before kubeadm installation [yes/no]"
+      private: no
+      register: reset
+  tasks:
+    - include_vars: ../variable/vars.yml
+    - name: Kubeadm Image Pullig
+      shell: |
+        kubeadm config images pull
+    - name: Kubeadm reset
+      shell: |
+        kubeadm reset -f
+      when: reset == "yes"
+    - name: Kubeadm Inıt And Token Create
+      shell: |
+        kubeadm init --pod-network-cidr=10.244.0.0/16
+      register: token
+    - name: Saving Token File 
+      local_action: copy content={{output.stdout}} dest:{{./token_file.txt}}
+    - name: Create Kubernetes Home Folder and Other content
+      shell: |
+        mkdir -p $HOME/.kube
+        cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+        chown $(id -u):$(id -g) $HOME/.kube/config
+        kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+      
