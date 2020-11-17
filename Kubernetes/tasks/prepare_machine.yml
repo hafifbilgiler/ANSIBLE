@@ -1,0 +1,40 @@
+- name: Start Prepare Installation For Kubernetes Cluster
+  hosts: all
+  vars_prompt:
+  # - name: number_worker
+  #    prompt: "How Many Do You Want Worker Node :"
+  #    private: no
+  #  - name: test
+  #    prompt: "Do you want enable docker test repo(optional) [yes/no]:"
+  #    private: no
+- name: Continuing Prepare Installation For Kubernetes Cluster
+  hosts: master
+  tasks:
+    - name: Set Hostname For Masternode
+      shell: |
+       hostnamectl set-hostname {{node_name1}}
+- name: Continuing Prepare Installation For Kubernetes Cluster
+  hosts: worker
+  tasks:
+    - name: Set Hostname For Workernode
+      shell: |
+       hostnamectl set-hostname {{node_name2}}
+- name: Continue Settings
+  hosts: all
+  tasks:
+    - include_vars: ../variable/vars.yml
+    - name: Update hosts
+      lineinfile:
+        path: "{{host_file}}"
+        state: present
+        line: "{{ item }}"
+      with_items:
+        - '192.168.56.102 {{node_name1}}'
+        - '192.168.56.104 {{node_name2}}'
+    - name: Stop Firewalld
+      shell: |
+       systemctl stop firewalld
+    - name: Install Yum - Utills
+      yum:
+       name: yum-utils
+       state: present
