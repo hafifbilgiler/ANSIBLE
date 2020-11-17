@@ -1,6 +1,6 @@
-- name: Started Docker Installation
+- name: Started Master Node Settings
   hosts: master
-  vars_prompt:   
+  vars_prompt:
     - name: reset
       prompt: "Do you want enable reset before kubeadm installation [yes/no]"
       private: no
@@ -16,15 +16,20 @@
       when: reset == "yes"
     - name: Kubeadm Inıt And Token Create
       shell: |
-        kubeadm init --pod-network-cidr=10.244.0.0/16
+        kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address={{master_ip}} --apiserver-cert-extra-sans={{master_ip}}
       register: token
-    - name: Saving Token File 
-      local_action: copy content={{output.stdout}} dest:{{./token_file.txt}}
+    - name: Saving Token File
+      local_action: copy content={{token.stdout}} dest=./token_file.txt
+    - name: Create a directory if it does not exist
+      file:
+        path: /root/.kube
+        state: directory
+    - name: Create a directory if it does not exist
+      file:
+        path: /root/.kube/config
+        owner: root
+        group: root
     - name: Create Kubernetes Home Folder and Other content
       shell: |
-        mkdir -p $HOME/.kube
-        cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-        chown $(id -u):$(id -g) $HOME/.kube/config
+        cp  /etc/kubernetes/admin.conf $HOME/.kube/config
         kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-
-      
