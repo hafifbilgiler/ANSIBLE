@@ -7,7 +7,7 @@
       register: reset
   tasks:
     - include_vars: ../variable/vars.yml
-    - name: Kubeadm Image Pullig
+    - name: Kubeadm Image Pulling
       shell: |
         kubeadm config images pull
     - name: Kubeadm reset
@@ -29,7 +29,7 @@
         path: /root/.kube/config
         owner: root
         group: root
-    - name: Create Kubernetes Home Folder and Other content
+    - name: Create Kubernetes Home Folder and Other Content
       shell: |
         cp  /etc/kubernetes/admin.conf $HOME/.kube/config
         kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
