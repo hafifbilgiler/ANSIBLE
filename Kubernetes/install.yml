@@ -9,6 +9,6 @@
 - name: Include Preparing Yml File To Prepare Machines
   import_playbook: ./tasks/prepare_kubernetes.yml
 - name: Include Master Yml File To Set Master Machine
-  import_playbook: ./tasks/master.yaml
+  import_playbook: ./tasks/master.yml
 - name: Include Initiate Yml File To Join Worker Node
   import_playbook: ./tasks/initiate_cluster.yml
