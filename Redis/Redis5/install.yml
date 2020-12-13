@@ -3,6 +3,9 @@
   hosts: all
   tasks:
     - include_vars: ./variable/vars.yml
+    - name: Add the user Redis
+      user:
+        name: redis
     - name: Create a directory for Redis Installation
       file:
         path: "{{conf_directory}}"
@@ -76,9 +79,6 @@
         path: "{{conf_directory}}/{{conf_file}}"
         regexp: '^supervised'
         line: supervised {{supervised}}
-    - name: Add the user Redis
-      user:
-        name: redis
     - name: Enable Redis Service
       service:
         name: redis

@@ -5,7 +5,7 @@ service_file: redis.service
 service_file_dir: /usr/lib/systemd/system/
 redis_ver: 5.0.9
 redis_install_dir: /opt/Redis
-sbin_path: /usr/sbin/nginx
+sbin_path: /usr/sbin/redis
 error_log_path: /var/log/redis
 error_file: redis.log
 pid_file: /var/run/redis_6379.pid
