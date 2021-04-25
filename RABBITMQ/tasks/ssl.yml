@@ -1,0 +1,65 @@
+- name: Enable Plugins For Rabbitmq Server
+  hosts: all
+  vars_prompt:
+    - name: "C"
+      prompt: "Country Name (2 letter code) [XX]"
+      private: no
+    - name: "PN"
+      prompt: "State or Province Name (full name) []"
+      private: no
+    - name: "LN"
+      prompt: "Locality Name (eg, city) [Default City]"
+      private: no
+    - name: "ON"
+      prompt: "Organization Name (eg, company) [Default Company Ltd]"
+      private: no
+    - name: "OU"
+      prompt: "Organizational Unit Name (eg, section) []"
+      private: no
+    - name: "CN"
+      prompt: "Common Name (eg, your name or your server's hostname) []"
+      private: no
+    - name: "Email"
+      prompt: "Email Address []"
+      private: no
+    - name: "SN"
+      prompt: "Please Enter Your Subject Alternative Name []"
+      private: no
+  tasks:
+    - include_vars: ../variables/vars.yml
+    - name: Remove Old Files If Exıst
+      shell: |
+        rm -rf /opt/rabbitmq/CERT/*
+        rm -rf /etc/rabbitmq/ssl/*
+    - name: Copy Conf And Script Files
+      copy: src={{ item.src }} dest={{ item.dest }}
+      with_items:
+        - { src: '../files/rabbitmq.conf', dest: '/etc/rabbitmq/rabbitmq.conf' }
+        - { src: '../files/req.config', dest: '/opt/rabbitmq/CERT/req.config' }
+        - { src: '../files/inter_node_tls.config', dest: '/etc/rabbitmq/inter_node_tls.config' }
+        - { src: '../files/v3.ext', dest: '/opt/rabbitmq/CERT/v3.ext' }
+        - { src: '../files/crt_create.sh', dest: '/opt/rabbitmq/CERT/crt_create.sh' }
+    - name: And Erlang Optimizations Path In The ENV File And Restart Services
+      shell: |
+         erl -noinput -eval 'io:format("ERL_SSL_PATH=~s~n", [filename:dirname(code:which(inet_tls_dist))])' -s init stop > /etc/rabbitmq/rabbitmq-env.conf
+         yum install python2 -y
+         chmod +x "{{ SSL_FOLDER }}/crt_create.sh"
+    - name: Install The Pip pacgae for anwer the script questions
+      pip:
+        name: pexpect
+    - name: Create SSL Certificates
+      expect:
+        command: "{{ SSL_FOLDER }}/crt_create.sh"
+        responses:
+          'Country *': "{{ C }}"
+          'State *': "{{ PN }}"
+          'Locality *': "{{ LN }}"
+          'Organization *': "{{ ON }}"
+          'Organizational *': "{{ OU }}"
+          'Common *': "{{ CN }}"
+          'Email *': "{{ Email }}"
+          'Please *': "{{ SN }}"
+        echo: yes
+    - name: Restart The Services
+      shell: |
+         systemctl restart rabbitmq-server

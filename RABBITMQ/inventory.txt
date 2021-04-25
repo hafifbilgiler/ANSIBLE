@@ -1,0 +1,4 @@
+[rabbitmq01]
+target1 ansible_host=Your Master Node Ip Address
+[rabbitmq02]
+target2 ansible_host=Your Worker Node Ip Address

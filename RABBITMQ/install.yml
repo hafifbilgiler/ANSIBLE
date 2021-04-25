@@ -1,0 +1,9 @@
+-
+  name: Started Installation Of RabbitMQ Cluster
+  hosts: all
+  tasks:
+    - debug:
+        msg: "Installation Of Rabbitmq Cluster Has Been Started By Ansible"
+- import_playbook: ./tasks/prepare.yml
+- import_playbook: ./tasks/ssl.yml
+- import_playbook: ./tasks/cluster.yml

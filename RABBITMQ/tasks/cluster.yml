@@ -1,0 +1,52 @@
+- name: Enable Plugins For Rabbitmq Server
+  hosts: rabbitmq01
+  tasks:
+    - include_vars: ../variables/vars.yml
+    - name: Copy Erlang.cookie From Remote Machine
+      shell: |
+        hostnamectl set-hostname {{MASTER_HOSTNAME}}
+        rm -rf /opt/erlang.cookie
+        cat /var/lib/rabbitmq/.erlang.cookie >> /opt/erlang.cookie
+    - name: Copy Erlang.cookie Remote Machine From Local Machine
+      fetch:
+        src: /opt/erlang.cookie
+        dest: /opt/erlang.cookie
+    - name: Update hosts
+      lineinfile:
+        path: "{{HOST_FILE}}"
+        state: present
+        line: "{{ item }}"
+      with_items:
+        - '{{MASTER_IP}} {{MASTER_HOSTNAME}}'
+        - '{{MIRROR_IP}} {{MIRROR_HOSTNAME}}'
+
+- name: Enable Plugins For Rabbitmq Server
+  hosts: rabbitmq02
+  tasks:
+    - include_vars: ../variables/vars.yml
+    - name: Remove Old Cookie File
+      shell: |
+        systemctl stop rabbitmq-server
+        hostnamectl set-hostname {{MIRROR_HOSTNAME}}
+        rm -rf /var/lib/rabbitmq/.erlang.cookie
+    - name: Copy Erlang.cookie Remote Machine From Local Machine
+      copy:
+        src: /opt/erlang.cookie/target1/opt/erlang.cookie
+        dest: /var/lib/rabbitmq/.erlang.cookie
+        owner: rabbitmq
+        group: rabbitmq
+    - name: Update hosts
+      lineinfile:
+        path: "{{HOST_FILE}}"
+        state: present
+        line: "{{ item }}"
+      with_items:
+        - '{{MASTER_IP}} {{MASTER_HOSTNAME}}'
+        - '{{MIRROR_IP}} {{MIRROR_HOSTNAME}}'
+    - name: Run The Command To Join The Cluster
+      shell: |
+          chmod 400 /var/lib/rabbitmq/.erlang.cookie
+          systemctl start rabbitmq-server
+          rabbitmqctl stop_app
+          rabbitmqctl join_cluster rabbit@'{{MASTER_HOSTNAME}}'
+          systemctl restart rabbitmq-server

@@ -1,0 +1,10 @@
+---
+  ERLANG_RPM: "https://github.com/rabbitmq/erlang-rpm/releases/download/v23.3/erlang-23.3-2.el8.x86_64.rpm"
+  RABBİTMQ_RPM: "https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.14/rabbitmq-server-3.8.14-1.el8.noarch.rpm"
+  INSTALL_FOLDER: /opt/rabbitmq
+  SSL_FOLDER: /opt/rabbitmq/CERT
+  MASTER_IP: Your Chosen MAchine Ip Address For Master Node (For Ex. 192.000.000.000)
+  MIRROR_IP: Your Chosen MAchine Ip Address For Mırror Node (For Ex. 192.000.000.000)
+  HOST_FILE: /etc/hosts
+  MASTER_HOSTNAME: rabbitmq01
+  MIRROR_HOSTNAME: rabbitmq02

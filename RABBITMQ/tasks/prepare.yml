@@ -1,0 +1,42 @@
+-
+  name: Started RabbitMQ Installation
+  hosts: all
+  ignore_errors: yes
+  tasks:
+    - include_vars: ../variables/vars.yml
+    - name: Create Installation Folder
+      file:
+       path: "{{ INSTALL_FOLDER }}"
+       state: directory
+    - name: Create SSL Folder
+      file:
+       path: "{{ SSL_FOLDER }}"
+       state: directory
+    - name: Download RabbitMQ RPM Files
+      shell: |
+        wget -O rabbitmq.rpm "{{ RABBİTMQ_RPM }}" --no-check-certificate
+      args:
+       chdir: "{{ INSTALL_FOLDER }}"
+    - name: Download Erlang RPM Files
+      shell: |
+        wget -O erlang.rpm  "{{ ERLANG_RPM }}" --no-check-certificate
+      args:
+       chdir: "{{ INSTALL_FOLDER }}"
+    - name: Started Erlang Installation
+      shell: |
+       yum localinstall erlang.rpm -y
+      args:
+       chdir: "{{ INSTALL_FOLDER }}"
+    - name: Started RabbitMQ Installation
+      shell: |
+       yum localinstall rabbitmq.rpm -y
+      args:
+       chdir: "{{ INSTALL_FOLDER }}"
+    - name: Enable RabbitMQ Server And Start
+      shell: |
+       systemctl enable rabbitmq-server
+       systemctl start rabbitmq-server
+    - name: Enable RabbitMQ For Each Node
+      shell: |
+        rabbitmq-plugins enable rabbitmq_management
+        systemctl restart rabbitmq-server
