@@ -4,7 +4,7 @@
     - include_vars: ../variable/vars.yml
     - name: Copy Token File
       copy:
-        src: /root/ANSIBLE/Kubernetes/tasks/token_file.txt
+        src: /root/token_file.txt
         dest: /root/
     - name: Cut Initiate Command
       shell: |

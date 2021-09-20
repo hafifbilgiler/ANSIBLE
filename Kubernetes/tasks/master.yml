@@ -14,12 +14,12 @@
       shell: |
         kubeadm reset -f
       when: reset == "yes"
-    - name: Kubeadm Inıt And Token Create
+    - name: Kubeadm Inıt And Token Create 
       shell: |
         kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address={{master_ip}} --apiserver-cert-extra-sans={{master_ip}}
       register: token
     - name: Saving Token File
-      local_action: copy content={{token.stdout}} dest=./token_file.txt
+      local_action: copy content={{token.stdout}} dest=/root/token_file.txt
     - name: Create a directory if it does not exist
       file:
         path: /root/.kube
