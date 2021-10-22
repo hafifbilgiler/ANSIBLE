@@ -24,12 +24,7 @@
       file:
         path: /root/.kube
         state: directory
-    - name: Create a directory if it does not exist
-      file:
-        path: /root/.kube/config
-        owner: root
-        group: root
     - name: Create Kubernetes Home Folder and Other Content
       shell: |
-        cp  /etc/kubernetes/admin.conf $HOME/.kube/config
+        yes | cp  /etc/kubernetes/admin.conf $HOME/.kube/config
         kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
