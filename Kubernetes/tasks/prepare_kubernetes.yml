@@ -3,12 +3,14 @@
   hosts: all
   tasks:
     - include_vars: ../variable/vars.yml
-    - name: Closing Selinux And Swap
+    - name: Closing Selinux, Swap and Firewalld
       shell: |
        swapoff -a
        sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
        setenforce 0
        sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' {{selinux}}
+       systemctl stop firewalld
+       systemctl disable firewalld
     - name: Copying Kubernetes Repo file
       copy:
        src: ../files/kubernetes.repo
