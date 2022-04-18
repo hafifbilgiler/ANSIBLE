@@ -1,0 +1,12 @@
+- hosts: Redis-01
+  tasks:
+    - include_vars: ../variable/vars.yml
+    #- name: Remove aof  file to do not get this error messages(Either the node already knows other nodes (check with CLUSTER NODES) or contains some key in database)
+      #command: rm -rf /var/lib/redis/6101/appendonly.aof
+    - name: Initiate Cluster
+      expect:
+        command: redis-cli  --cluster create <your server_1 ip address>:6101 <your server_1 ip address>:6102 <your server_2 ip address>:6201 <your server_2 ip address>:6202 <your server_3 ip address>:6301 <your server_3 ip address>:6302 --cluster-replicas 1 --cluster-yes
+        responses:
+          Question:
+            - Can I set the above configuration? (type 'yes' to accept): yes
+

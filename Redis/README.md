@@ -11,7 +11,7 @@ Step1:
 Step2:
     Open inventory file and variable/vars.yml file to edit and customization to installation. Vars file can stay the default setting but you must add ip address in inventory file. Then after should run below command to installation redis server.
 
-    - ansible-playbook install.yml -i inventort.txt
+    - ansible-playbook install.yml -i inventory.txt
 
     Then after you must see installation with succes...
 

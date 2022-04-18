@@ -1,0 +1,7 @@
+[Redis-01]
+target1 ansible_ssh_host=<your server ip address>
+[Redis-02]
+target2 ansible_ssh_host=<your server ip address>
+[Redis-03]
+target3 ansible_ssh_host=<your server ip address>
+

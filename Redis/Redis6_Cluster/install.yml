@@ -1,0 +1,99 @@
+-
+   name: Redis6-0-7 Installation
+   hosts: all
+   vars_prompt:
+     - name: "satallite"
+       prompt: "If you have al satallite [yes/no]"
+       private: no
+     - name: "dist_clean_make"
+       prompt: "If you want this script do dist clean for make command [yes/no]"
+       private: no
+     - name: "remove"
+       prompt: "Do you want remove the old Redis folder [yes/no]"
+       private: no  
+   tasks:
+     - include_vars: ./variable/vars.yml
+     - name: Recursively remove directory
+       when: remove == "yes"
+       file:
+        path: /opt/Redis
+        state: absent
+     - name: Create a directory for us to  work
+       file:
+        path: /opt/Redis
+        state: directory
+     - name: Copy Redis Targz File Under Host Machine
+       copy:
+        src: ./redis/redis-{{version6}}.tar.gz
+        dest: /opt/Redis
+        owner: root
+        group: root
+     - name: Exctrack Redis tar.gz file
+       unarchive:
+        src: /opt/Redis/redis-{{version6}}.tar.gz
+        dest: /opt/Redis
+        remote_src: yes
+     - name: Change The Owner Of Selected Folder
+       file:
+        path: /opt/Redis/redis-{{version6}}
+        owner: root
+        group: root
+        recurse: yes
+     - name: Enable The Redhat Satallite Exstra RPMS
+       when: satallite == "yes"
+       shell: subscription-manager repos --enable rhel-7-server-optional-rpms --enable rhel-server-rhscl-7-rpms --enable rhel-7-server-devtools-rpms
+     - name: Install a list of packages
+       when: satallite == "yes"
+       yum:
+        name:
+         - systemd-devel
+         - devtoolset-7 
+        state: present
+     - name: Create a directory under remote machine
+       file:
+        path: /opt/redis6_rpm
+        state: directory
+     - name: Copy RPM Files Under Host Machine
+       when: satallite == "no"
+       copy:
+        src: ../redis/Dependcy
+        dest: /opt/redis6_rpm
+        owner: root
+        group: root
+     - name: Install a list of packages with with under redis folder rpm files
+       when: satallite == "no"
+       shell: yum localinstall *.rpm -y
+       args:
+        chdir: /opt/redis6_rpm/Dependcy/
+     - name: Make Distclean
+       when: dist_clean_make == "yes"
+       command: chdir=/opt/Redis/redis-{{version6}} make distclean
+     - name: Add a line to a file if the file does not exist, without passing regexp
+       lineinfile:
+        path: /root/.bashrc
+        line: source scl_source enable devtoolset-7
+        create: yes
+     - name: Run SCL Command
+       shell: |
+        source scl_source enable devtoolset-7
+     - name: Make Command
+       shell: |
+        make USE_SYSTEMD=yes install
+       args:
+        chdir: /opt/Redis/redis-{{version6}}
+     - name: Create a directory if it does not exist for redis work folder
+       file:
+        path: /etc/redis
+        state: directory
+     - name: Copy Shutdown Config File Under Remote Machine
+       copy: 
+        src: ./config/{{shutdown_conf}}
+        dest: "{{config_dir}}"
+        owner: root
+        group: root
+        mode: 0777
+- import_playbook: ./tasks/task1.yml
+- import_playbook: ./tasks/task2.yml
+- import_playbook: ./tasks/task3.yml
+- import_playbook: ./tasks/cluster.yml
+          

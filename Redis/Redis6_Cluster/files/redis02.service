@@ -1,0 +1,18 @@
+[Unit]
+Description=Redis In-Memory Data Store
+After=network.target
+#Requires=stunnel.service
+
+[Service]
+User=root
+Group=root
+ExecStart=/usr/local/bin/redis-server /etc/redis/redis_6102.conf
+ExecStop=/usr/local/bin/redis-cli -p 6102  U9jN0D9J1a < /etc/redis/redis-shutdown.conf
+RuntimeDirectory=root
+RuntimeDirectoryMode=0755
+Restart=always
+Type=notify
+LimitNOFILE=300000
+
+[Install]
+WantedBy=multi-user.target

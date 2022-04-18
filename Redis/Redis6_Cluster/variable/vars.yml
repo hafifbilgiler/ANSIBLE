@@ -1,0 +1,40 @@
+---
+config_dir: /etc/redis
+install_dir: /opt/Redis
+config_default: redis.conf
+config_file1: redis_6101.conf
+config_file2: redis_6102.conf
+config_file3: redis_6201.conf
+config_file4: redis_6202.conf
+config_file5: redis_6301.conf
+config_file6: redis_6302.conf
+service_file1: redis_6101.service
+service_file2: redis_6102.service
+service_file3: redis_6201.service
+service_file4: redis_6202.service
+service_file5: redis_6301.service
+service_file6: redis_6302.service
+task1: redis_01.yml
+task2: redis_02.yml
+task3: redis_02.yml
+shutdown_conf: redis-shutdown.conf
+service_file_path: /usr/lib/systemd/system/
+#This folder you can change,but you must do same process in redis.conf file. Below directory,taken in config file.
+lib_dir1: /var/lib/redis/6101
+lib_dir2: /var/lib/redis/6102
+lib_dir3: /var/lib/redis/6201
+lib_dir4: /var/lib/redis/6202
+lib_dir5: /var/lib/redis/6301
+lib_dir6: /var/lib/redis/6302
+version5: 5.0.9
+version6: 6.2.6
+dist_clean: "yes"
+instance1_ip: "<your server ip address>" 
+instance2_ip: "<your server ip address>"
+instance3_ip: "<your server ip address>"
+instance1_port_1: 6101
+instance1_port_2: 6102
+instance1_port_3: 6201
+instance1_port_4: 6202
+instance1_port_5: 6301
+instance1_port_6: 6302

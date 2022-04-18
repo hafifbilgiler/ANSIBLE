@@ -1,0 +1,74 @@
+# This yaml file copy copy file and service file uner specified remote server. This server conatain two instance redis_6101 and redis_6102
+#
+ 
+- name: Copy Service file for instanstance 
+  hosts: Redis-01
+  tasks:
+    - include_vars: ../variable/vars.yml
+    - name: Create a directory if it does not exist for redis lib folder
+      file:
+        path: "{{lib_dir1}}"
+        state: directory
+    - name: Create a directory if it does not exist for redis lib folder
+      file:
+        path: "{{lib_dir2}}"
+        state: directory
+    - name: Copy Redis01 Config File Under Redis01 Instance Under /etc/redis Directory
+      copy:
+        src: ../config/redis01.conf
+        dest: /etc/redis/{{config_file1}}
+        owner: root
+        group: root
+    - name: Change The Line With Instance_1 Ip Address
+      lineinfile:
+         path: /etc/redis/{{config_file1}}
+         regexp: 'bind ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+         line: "bind {{instance1_ip}}"
+         backrefs: yes
+    - name: Copy Redis02 Config File Under Redis01 Instance With Under /etc/redis Directory
+      copy:
+        src: ../config/redis02.conf
+        dest: /etc/redis/{{config_file2}}
+        owner: root
+        group: root
+    - name: Change The Line With Instance_2 Ip Address
+      lineinfile:
+         path: /etc/redis/{{config_file2}}
+         regexp: 'bind ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+         line: "bind {{instance1_ip}}"
+         backrefs: yes
+    - name: Copy Redis01 Service File Under Redis01 Machine Machine With  Under "{{service_file_path}}" Directoy
+      copy:
+        src: ../files/redis01.service
+        dest: "{{service_file_path}}/{{service_file1}}"
+        owner: root
+        group: root
+    - name: Copy Redis02 Service File Under Redis01 Machine With  Under "{{service_file_path}}" Directory
+      copy:
+        src: ../files/redis02.service
+        dest: "{{service_file_path}}/{{service_file2}}"
+        owner: root
+        group: root
+    - name: Enable service Redis redis_6101.service 
+      service:
+        name: redis_6101
+        enabled: yes
+    - name: Enable service Redis
+      service:
+        name: redis_6102
+        enabled: yes 
+    - name: Add the user 'redis' We Dont Use But I  added
+      user:
+        name: redis
+    - name: Run Daemon Reload Command For Redis Service file
+      systemd:
+        daemon_reload: yes
+    - name: Make sure a redis_6101 service is running
+      systemd:
+        state: started
+        name: redis_6101
+    - name: Make sure a redis_6102 service is running
+      systemd:
+        state: started
+        name: redis_6102
+
