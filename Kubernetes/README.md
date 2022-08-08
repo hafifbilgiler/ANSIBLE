@@ -11,7 +11,7 @@ NOTE: This code is only valid for systems with a master and a worker node
 2) Then after you just run command and you should looks installation:
  -  ansible-playbook install.yml -i inventory.txt
 
-3) You can go remote machine and control the kubernetes cluster.
+3) You can go remote machine and control the kubernetes cluster...
  -  kubectl get nodes
 
 ===============================================================================
