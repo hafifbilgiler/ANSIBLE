@@ -38,7 +38,7 @@
       when: test == "yes"
     - name: Install Docker Packages
       shell: |
-       yum install docker-ce -y --allowerasing
+       yum install docker-ce docker-ce-cli containerd.io 
       #yum:
       # name:
       #  - container-selinux
