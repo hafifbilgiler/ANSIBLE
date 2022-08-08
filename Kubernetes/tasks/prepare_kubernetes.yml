@@ -18,7 +18,7 @@
        mode: '0644'
     - name: Install And Enable Kubelet
       shell: |
-       yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+       yum install -y kubelet-1.21.3 kubeadm-1.21.3 kubectl-1.21.3 --disableexcludes=kubernetes
        CG=$(sudo docker info 2>/dev/null | sed -n 's/Cgroup Driver: \(.*\)/\1/p')
        sed -i 's/KUBELET_EXTRA_ARGS=.*/KUBELET_EXTRA_ARGS=--cgroup-driver='"$CG"'/g' /etc/sysconfig/kubelet
        sed -i 's/[[:blank:]]*=[[:blank:]]*/=/g' /etc/sysconfig/kubelet
