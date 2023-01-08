@@ -1,0 +1,7 @@
+k8s-clusters-lab:  #there is a your group name if you have any ks8 cluster group you can sperate
+  hosts: #Host field. This are will specifiy your host name like described below.
+    whitefang-cluster-1: # My first cluster and variables
+      url: "https://192.168.56.101:6443"
+      token: "eyJhbGciOiJSUzI1NiIsImtpZCI6InI0NkxLcHliMjNYZjhRWEFQZ3I2QWJmYlY1ZnIwSDBub0I3SnpfSEpPMjAifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJhbnNpYmxlIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6Im5hbWVzcGFjZS1jcmVhdGUiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiY3JlYXRlLW5hbWVzcGFjZSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjlmMjUzZGM4LTVjMmQtNGMxZi05ODYyLTU2MGFmMmI3ZWYzNiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDphbnNpYmxlOmNyZWF0ZS1uYW1lc3BhY2UifQ.d2Re1A3jQrrU7P7cSgjfBVzr1oMg9aAb3-JkEhVG1tr6ORQrUZxkV-B3-0QxNimHjVsQGC99uG4T4YAbQjq0rBkQAv2Qjosq4RNgIHvC3yUE9H6CKpUcspOR4stsjgiLlgUQF82OH1JgxGf9jrDPs6WtFfYgELchOX-Oo-Eyd2ueLwRT4ZvuAFv7Ye1xO3uzmkfn-zZnMgbAlrDUxiWQYfbowSSpTB0g-29Sm8DPEq2-eAo6KZwbeAftpMsr4hYCnwgv3o0gwX19UD61bLJqMRgFDt1S2GjFvP34Jxop3KTGyseotWeXH7ue_eboa0VofhGyOxhFiBj4NWLCIgbACQ"
+     
+    
