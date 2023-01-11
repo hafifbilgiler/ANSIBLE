@@ -2,4 +2,4 @@
   hosts: localhost
   tasks:
     - name: Get NameSpace List Tasks
-      ansible.builtin.import_tasks: get-namespace-list.yml
+      ansible.builtin.import_tasks: ./tasks/get-namespace-list.yml
