@@ -1,6 +1,8 @@
 - name: Print The Cluster Name,Environment and URL Address
   ansible.builtin.debug:
-    msg: "URL: {{ hostvars[item].url }} Cluster Name: {{ hostvars[item].cluster_name }}"
+    msg: "URL: {{ hostvars[item].url }} Cluster Name: {{ item }}"
+  with_items:
+      - "{{ groups[ env ] }}"
 
 - name: Get NameSpace List With Api Call
   ansible.builtin.uri:
