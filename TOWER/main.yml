@@ -1,0 +1,5 @@
+- name: Get NameSpace List Otomation Has Been Started
+  hosts: localhost
+  tasks:
+    - name: Get NameSpace List Tasks
+      ansible.builtin.import_tasks: get-namespace-list.yml
