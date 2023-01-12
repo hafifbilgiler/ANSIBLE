@@ -10,6 +10,7 @@
     method: GET
     body_format: json
     status_code: [200, 202]
+    validate_certs: no
     headers:
       Content-Type: application/json
       Accept: application/json
