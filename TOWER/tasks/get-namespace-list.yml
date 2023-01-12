@@ -14,9 +14,9 @@
       Content-Type: application/json
       Accept: application/json
       Authorization: "Bearer {{ hostvars[item].token }}"
-    register: get_namespace
-    with_items:
-      - "{{ groups[ env ] }}"
+  register: get_namespace
+  with_items:
+    - "{{ groups[ env ] }}"
 
 - name: Print The NameSpace List
   ansible.builtin.debug:
