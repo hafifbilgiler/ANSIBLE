@@ -26,13 +26,13 @@
   loop_control:
     index_var: my_idx
 
-- name: EXIT The Script If NameSpace Does Not Exist
+- name: EXIT The Script If NameSpace Exist
   fail: msg="Please Ensure The Your NameSpace Exist In The Your Environment"
   with_items:
     - "{{ groups[ env ] }}"
   loop_control:
     index_var: my_idx
-  when: result_of_ns.results[{{ my_idx }}].status == 404
+  when: result_of_ns.results[{{ my_idx }}].status != 404
 
 - name: Create NS If Does Not Exist
   ansible.builtin.uri:
