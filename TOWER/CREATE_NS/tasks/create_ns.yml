@@ -9,6 +9,7 @@
     url: "{{ hostvars[item].url }}/api/v1/namespaces/test-tower"
     method: GET
     body_format: json
+    validate_certs: no
     headers:
       Accept: "application/json"
       Authorization: "Bearer {{ hostvars[item].token }}"
