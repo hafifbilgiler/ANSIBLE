@@ -1,5 +1,5 @@
 - name: SVC Control Automation Started
-  hosts: localhost
+  hosts: masternode
   tasks:
     - name: Import SVC Control Task
       shell: |
