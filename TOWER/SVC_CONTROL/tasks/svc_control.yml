@@ -1,0 +1,6 @@
+- name: SVC Control Automation Started
+  hosts: localhost
+  tasks:
+    - name: Import SVC Control Task
+      shell: |
+        echo "whitefang"

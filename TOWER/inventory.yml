@@ -3,5 +3,8 @@ k8s-clusters-lab:  #there is a your group name if you have any ks8 cluster group
     whitefang-cluster-1: # My first cluster and variables
       url: "https://192.168.56.101:6443"
       token: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjFjLXpObUxrUHdIZzlVTE80VlhiTGJQTG1SOU9nRXFFUTZ5dlNncFplUVEifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJhbnNpYmxlLXRvd2VyIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImFuc2libGUtdG93ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiYW5zaWJsZS10b3dlciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImE0MDhiNGU3LWQ0MjEtNDA1Yi05ZmE3LWJhNmM1NmY2ZWIyZCIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDphbnNpYmxlLXRvd2VyOmFuc2libGUtdG93ZXIifQ.inkA_Y9_EDLaBdFj5MTeMwWpj1vr4dXZHgZH1p1la8XLQOu1wTDk1su_LtNsnLyxI5dJj7heJnBLyqmXRyVilCqyTfb6wPZafOpUE5SiugxUN2x1V9I1h1KJv-_5Bd373YWwp5UL9bJsMcVWj8EbTPuQKeLpurojNwTKSzE_U9KmM_0Faqlphcz0rf_lkuhOrdhhfmeInHMO8emSIBq-NSXaorpruL0jpzb4WkVjF2KQmPldTNmGss1aL5NhMO0Ch0YE3zzqu5vS-lJLfYIpVZrLzakjkdzidUsTCxDiJDgyw7h55dWHehjwQ09oc8Swldz9JAvtc2BlDPbim2rqmg"
-     
+masternode:
+  hosts:
+    masternode-k8smasternode01:
+       ansible_host: 192.168.56.101     
     

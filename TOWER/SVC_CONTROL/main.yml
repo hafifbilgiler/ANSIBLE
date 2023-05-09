@@ -1,0 +1,2 @@
+- name: Playbook 1
+  ansible.builtin.import_playbook: ./tasks/svc_control.yml
