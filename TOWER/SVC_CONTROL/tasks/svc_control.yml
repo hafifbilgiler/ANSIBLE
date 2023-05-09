@@ -3,4 +3,4 @@
   tasks:
     - name: Import SVC Control Task
       shell: |
-        echo "whitefang"
+        echo "whitefang test"
