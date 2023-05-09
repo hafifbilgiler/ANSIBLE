@@ -1,2 +1,2 @@
 - name: Include a playbook from a collection
-  ansible.builtin.import_playbook: ./tasks/svc_control.yml
+  import_playbook: ./tasks/svc_control.yml
