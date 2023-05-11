@@ -11,4 +11,8 @@
     - name: Make sure a service unit is running
       ansible.builtin.debug:
        var: status.status.ActiveState
+    - name: Run The Service If It Is Not Running
+      ansible.builtin.systemd:
+       name: kubelet
+       state: started
        
