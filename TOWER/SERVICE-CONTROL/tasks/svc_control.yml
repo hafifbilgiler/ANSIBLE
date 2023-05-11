@@ -1,0 +1,10 @@
+- name: SVC Control Automation Started
+  hosts: masternode
+  tasks:
+    - name: Get kubelet Service Status
+      ansible.builtin.systemd:
+       name: kubelet
+      register: status
+    - name: Print The Kubelet Service Status
+      ansible.builtin.debug:
+       var: status
