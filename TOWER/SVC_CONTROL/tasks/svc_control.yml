@@ -7,3 +7,8 @@
     - name: Make sure a service unit is running
       ansible.builtin.systemd:
        name: kubelet
+      register: status
+    - name: Make sure a service unit is running
+      ansible.builtin.debug:
+       var: status
+       
