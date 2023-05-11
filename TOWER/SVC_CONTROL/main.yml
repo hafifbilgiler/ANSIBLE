@@ -1,2 +1,0 @@
-- name: Include a playbook from a collection
-  import_playbook: ./tasks/svc_control.yml
