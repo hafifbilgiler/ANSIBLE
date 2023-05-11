@@ -13,3 +13,10 @@
        name: kubelet
        state: started
       when: status.status.ActiveState != "active"
+    - name: Get kubelet Service Status For Second Part
+      ansible.builtin.systemd:
+       name: kubelet
+    - name: Print The Kubelet Service Status
+      ansible.builtin.debug:
+       var: status.status.ActiveState  
+      when: status.status.ActiveState != "active"  
