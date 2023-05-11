@@ -4,7 +4,7 @@
     - name: Get kubelet Service Status
       ansible.builtin.systemd:
        name: kubelet
-      register: status.status.ActiveState
+      register: status
     - name: Print The Kubelet Service Status
       ansible.builtin.debug:
-       var: status
+       var: status.status.ActiveState
