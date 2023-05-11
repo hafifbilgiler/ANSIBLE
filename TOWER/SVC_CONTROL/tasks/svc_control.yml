@@ -4,3 +4,6 @@
     - name: Import SVC Control Task
       shell: |
         echo "whitefang test"
+    - name: Make sure a service unit is running
+      ansible.builtin.systemd:
+       name: kubelet
