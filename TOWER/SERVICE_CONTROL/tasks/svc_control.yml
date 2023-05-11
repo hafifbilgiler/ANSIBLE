@@ -5,7 +5,7 @@
       ansible.builtin.systemd:
        name: kubelet
       register: status
-    - name: Make sure a service unit is running
+    - name: Print The Kubelet Service Status
       ansible.builtin.debug:
        var: status.status.ActiveState
     - name: Run The Service If It Is Not Running
