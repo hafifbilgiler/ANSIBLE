@@ -10,5 +10,4 @@
       register: status
     - name: Make sure a service unit is running
       ansible.builtin.debug:
-       var: status
-       
+       var: status.ActiveState
