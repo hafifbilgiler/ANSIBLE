@@ -16,7 +16,8 @@
     - name: Get kubelet Service Status For Second Part
       ansible.builtin.systemd:
        name: kubelet
+      register: status2
     - name: Print The Kubelet Service Status
       ansible.builtin.debug:
-       var: status.status.ActiveState  
+       var: status2.status.ActiveState  
       when: status.status.ActiveState != "active"  
