@@ -3,7 +3,12 @@
   tasks:
     - name: Check if Service Exists
       shell: | 
-        exist=$(systemctl status {{service_name}})
+        exist=$(systemctl status {{service_name}} 2>&1)
+        if [[ $exist == *"could not be found"* ]]; then
+          echo "NO"
+        else
+          echo "HERE"
+        fi
       register: service_status
       ignore_errors: True
     - name: Print Status Of Service Exist
