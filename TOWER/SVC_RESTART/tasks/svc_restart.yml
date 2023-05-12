@@ -5,6 +5,7 @@
       shell: | 
         exist=$(systemctl status {{service_name}})
       register: service_status
+      ignore_errors: True
     - name: Print Status Of Service Exist
       debug:
         var: service_status
