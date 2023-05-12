@@ -12,8 +12,11 @@
       register: service_status
     - name: Print Status Of Service Exist
       debug:
-        var: service_status
-    - name: Print Status Of Service Exist
-      debug:
-        msg: Your Service Does not Exist
+        msg: "Your Service Does not Exist-----> So Your Service Has Not Been Restarted"
       when: service_status.stdout == "NO"
+    - name: Restart The Service
+      ansible.builtin.systemd:
+        state: restarted
+        name: {{ service_name }}
+      when: service_status.stdout == "HERE"
+    
