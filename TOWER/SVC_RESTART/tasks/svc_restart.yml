@@ -10,13 +10,10 @@
           echo "HERE"
         fi
       register: service_status
-      ignore_errors: True
     - name: Print Status Of Service Exist
       debug:
         var: service_status
     - name: Print Status Of Service Exist
       debug:
-        msg: Your Service Doesnot Esxist
+        msg: Your Service Does not Exist
       when: service_status.stdout == "NO"
-    
-    
