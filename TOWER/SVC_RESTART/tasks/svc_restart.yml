@@ -14,6 +14,10 @@
       debug:
         msg: "Your Service Does not Exist-----> So Your Service Has Not Been Restarted"
       when: service_status.stdout == "NO"
+    - name: Print Status Of Service Exist
+      debug:
+        msg: "Your Service EXIST On Host Machine"
+      when: service_status.stdout == "HERE"
     - name: Restart The Service
       ansible.builtin.systemd:
         state: restarted
