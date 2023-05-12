@@ -14,4 +14,9 @@
     - name: Print Status Of Service Exist
       debug:
         var: service_status
+    - name: Print Status Of Service Exist
+      debug:
+        msg: Your Service Doesnot Esxist
+      when: service_status.stdout == "NO"
+    
     
