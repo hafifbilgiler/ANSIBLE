@@ -2,7 +2,8 @@
   hosts: masternode
   tasks:
     - name: Check if Service Exists
-      stat: path=/etc/init.d/{{service_name}}
+      shell: | 
+        exist=$(systemctl status {{service_name}})
       register: service_status
     - name: Print Status Of Service Exist
       debug:
