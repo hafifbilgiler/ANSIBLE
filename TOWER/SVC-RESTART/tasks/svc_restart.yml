@@ -1,0 +1,16 @@
+- name: SVC Restart Automation Started
+  hosts: masternode
+  tasks:
+    - name: Check if Service Exists
+      shell: | 
+       exist=$(systemctl status {{service_name}} 2>&1)
+       if [[ $exist == *"could not be found"* ]]; then
+         echo "NO"
+       else
+         echo "HERE"
+       fi
+      register: service_status 
+    - name: Print Status Of Service 
+      debug:
+        var: service_status
+
