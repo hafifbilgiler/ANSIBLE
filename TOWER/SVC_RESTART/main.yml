@@ -1,2 +1,0 @@
-- name: Include a playbook for svc restart if service exist
-  import_playbook: ./tasks/svc_restart.yml
