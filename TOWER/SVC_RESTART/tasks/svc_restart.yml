@@ -10,6 +10,11 @@
           echo "HERE"
         fi
       register: service_status
-    - name: PRint The Output
+    - name: Print Status Of Service Exist
       debug:
-        var: service_status
+        msg: "Your Service Does not Exist-----> So Your Service Has Not Been Restarted"
+      when: service_status.stdout == "NO"
+    - name: Print Status Of Service Exist
+      debug:
+        msg: "Your Service EXIST On Host Machine"
+      when: service_status.stdout == "HERE"
