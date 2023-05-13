@@ -18,3 +18,8 @@
       debug:
         msg: "Your Service EXIST On Host Machine"
       when: service_status.stdout == "HERE"
+    - name: Restart The Service
+      ansible.builtin.systemd:
+        state: restarted
+        name: "{{service_name}}"
+      when: service_status.stdout == "HERE"
