@@ -3,7 +3,6 @@
     msg: "URL: {{ hostvars[item].url }} Cluster Name: {{ item }}"
   with_items:
       - "{{ groups[ env ] }}"
-
 - name: Check The Name Space If Exist Or Does Not
   ansible.builtin.uri:
     url: "{{ hostvars[item].url }}/api/v1/namespaces/test-tower"
@@ -17,7 +16,6 @@
   with_items:
     - "{{ groups[ env ] }}"
   register: result_of_ns 
-
 - name: PRINT NS Status
   ansible.builtin.debug:
     var: result_of_ns.results[{{ my_idx }}].status
@@ -25,7 +23,6 @@
     - "{{ groups[ env ] }}"
   loop_control:
     index_var: my_idx
-
 - name: Print The NS Existing
   debug:
     msg: "Deployment Exist In The Your Cluster"
@@ -34,7 +31,6 @@
   loop_control:
     index_var: my_idx
   when: result_of_ns.results[{{ my_idx }}].status != 404
-
 - name: Create NS If Does Not Exist
   ansible.builtin.uri:
     url: "{{ hostvars[item].url }}/api/v1/namespaces"
@@ -51,7 +47,6 @@
     index_var: my_idx
   register: result_of_ns_create
   when: result_of_ns.results[{{ my_idx }}].status == 404
-
 - name: Check The Deploy If Exist Or Does Not
   ansible.builtin.uri:
     url: "{{ hostvars[item].url }}/apis/apps/v1/namespaces/{{ ns_name }}/deployments/{{ deploy_name }}"
@@ -65,7 +60,6 @@
   with_items:
     - "{{ groups[ env ] }}"
   register: result_of_deploy 
-
 - name: Create Deploy If Does Not Exist
   ansible.builtin.uri:
     url: "{{ hostvars[item].url }}/apis/apps/v1/namespaces/{{ ns_name }}/deployments"
@@ -82,7 +76,6 @@
     index_var: my_idx
   register: result_of_deploy_create
   when: result_of_deploy.results[{{ my_idx }}].status == 404
-
 - name: Print The Deployment Existing
   debug:
     msg: "Deployment Exist In The Your Cluster"
