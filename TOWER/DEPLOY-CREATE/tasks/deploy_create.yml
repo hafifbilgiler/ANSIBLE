@@ -5,7 +5,7 @@
       - "{{ groups[ env ] }}"
 - name: Check The Name Space If Exist Or Does Not
   ansible.builtin.uri:
-    url: "{{ hostvars[item].url }}/api/v1/namespaces/test-tower"
+    url: "{{ hostvars[item].url }}/api/v1/namespaces/{{ ns_name }}"
     method: GET
     body_format: json
     validate_certs: no
