@@ -68,7 +68,7 @@
     headers:
       Content-Type: application/yaml
       Authorization: "Bearer {{ hostvars[item].token }}"
-    body: "{{ lookup('template','deploy.yml.j2') }}"
+    body: "{{ lookup('template','../template/deploy.yml.j2') }}"
     status_code: 201, 409
   with_items:
     - "{{ groups[ env ] }}"
