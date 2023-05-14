@@ -1,5 +1,0 @@
-- name: Create Deploy Tasks
-  hosts: localhost
-  tasks:
-    - name: Create Namespace 
-      ansible.builtin.import_tasks: ./tasks/deploy_create.yml
