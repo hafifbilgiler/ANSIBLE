@@ -87,3 +87,21 @@
   when: result_of_secret.results[{{ my_idx }}].status == 404
 
 
+- name: GET SECRET Exist Or Does Not
+  ansible.builtin.uri:
+    url: "{{ hostvars[item].url }}/api/v1/namespaces/default/secrets/{{ secret_name }}"
+    method: GET
+    body_format: json
+    validate_certs: no
+    headers:
+      Accept: "application/json"
+      Authorization: "Bearer {{ hostvars[item].token }}"
+    status_code: 200, 404
+  with_items:
+    - "{{ groups[ env ] }}"
+  register: result_of_secret_1
+
+- name: Print The Secret 
+  debug:
+    var: result_of_secret_1
+
