@@ -103,7 +103,7 @@
 
 - name: Print The Secret 
   debug:
-    var: result_of_secret_1.results[{{ my_idx }}].json.token
+    var: result_of_secret_1.results[{{ my_idx }}].json.data.token
   with_items:
     - "{{ groups[ env ] }}"
   loop_control:
