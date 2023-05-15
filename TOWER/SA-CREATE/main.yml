@@ -1,0 +1,5 @@
+- name: Create SA Tasks
+  hosts: localhost
+  tasks:
+    - name: Create SA
+      ansible.builtin.import_tasks: ./tasks/sa_create.yml

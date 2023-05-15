@@ -1,0 +1,89 @@
+- name: Print The Cluster Name,Environment and URL Address
+  ansible.builtin.debug:
+    msg: "URL: {{ hostvars[item].url }} Cluster Name: {{ item }}"
+  with_items:
+      - "{{ groups[ env ] }}"
+
+- name: Check The SA If Exist Or Does Not
+  ansible.builtin.uri:
+    url: "{{ hostvars[item].url }}/api/v1/namespaces/default/serviceaccounts/{{ sa_name }}"
+    method: GET
+    body_format: json
+    validate_certs: no
+    headers:
+      Accept: "application/json"
+      Authorization: "Bearer {{ hostvars[item].token }}"
+    status_code: 200, 404
+  with_items:
+    - "{{ groups[ env ] }}"
+  register: result_of_sa 
+
+- name: Print The SA Existing
+  debug:
+    msg: "Sa Exist In The Your Cluster"
+  with_items:
+    - "{{ groups[ env ] }}"
+  loop_control:
+    index_var: my_idx
+  when: result_of_sa.results[{{ my_idx }}].status != 404
+
+- name: Create SA If Does Not Exist
+  ansible.builtin.uri:
+    url: "{{ hostvars[item].url }}/api/v1/namespaces/default/serviceaccounts"
+    method: POST
+    validate_certs: no
+    headers:
+      Content-Type: application/yaml
+      Authorization: "Bearer {{ hostvars[item].token }}"
+    body: "{{ lookup('template','../template/sa.yml.j2') }}"
+    status_code: 201, 409
+  with_items:
+    - "{{ groups[ env ] }}"
+  loop_control:
+    index_var: my_idx
+  register: result_of_sa_create
+  when: result_of_sa.results[{{ my_idx }}].status == 404
+
+- name: Check The SECRET Exist Or Does Not
+  ansible.builtin.uri:
+    url: "{{ hostvars[item].url }}/api/v1/namespaces/default/secrets/{{ secret_name }}"
+    method: GET
+    body_format: json
+    validate_certs: no
+    headers:
+      Accept: "application/json"
+      Authorization: "Bearer {{ hostvars[item].token }}"
+    status_code: 200, 404
+  with_items:
+    - "{{ groups[ env ] }}"
+  register: result_of_secret 
+
+
+- name: Print The SECRET Existing
+  debug:
+    msg: "Secret Exist In The Your Cluster"
+  with_items:
+    - "{{ groups[ env ] }}"
+  loop_control:
+    index_var: my_idx
+  when: result_of_secret.results[{{ my_idx }}].status != 404
+
+
+- name: Create Secret If Does Not Exist
+  ansible.builtin.uri:
+    url: "{{ hostvars[item].url }}/api/v1/namespaces/default/secrets"
+    method: POST
+    validate_certs: no
+    headers:
+      Content-Type: application/yaml
+      Authorization: "Bearer {{ hostvars[item].token }}"
+    body: "{{ lookup('template','../template/secret.yml.j2') }}"
+    status_code: 201, 409
+  with_items:
+    - "{{ groups[ env ] }}"
+  loop_control:
+    index_var: my_idx
+  register: result_of_sa_create
+  when: result_of_secret.results[{{ my_idx }}].status == 404
+
+
