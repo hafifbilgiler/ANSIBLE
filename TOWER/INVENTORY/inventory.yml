@@ -1,0 +1,16 @@
+group-1:
+  hosts:
+    host-1:
+      url: "testurl"
+      sa: "test1"
+      environment: "test"
+    host-2:
+      ansible_host: 192.168.56.101
+group-2:
+  hosts:
+    host-a:
+      url: "testurl-1"
+      sa: "test1-2"
+      environment: "test-2"
+    host-b:
+      ansible_host: 192.168.56.101
