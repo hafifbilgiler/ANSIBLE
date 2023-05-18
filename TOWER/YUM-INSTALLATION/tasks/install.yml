@@ -5,7 +5,9 @@
       ansible.builtin.yum_repository:
         name: nginx
         description: NGINX YUM repo
-        baseurl: http://nginx.org/packages/centos/$releasever/$basearch/   
+        baseurl: http://nginx.org/packages/centos/$releasever/$basearch/
+        gpgcheck: no
+        enabled: yes
     - name: Install the latest version of NGINX
       ansible.builtin.yum:
         name: nginx
