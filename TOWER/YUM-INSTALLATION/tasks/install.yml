@@ -14,7 +14,7 @@
         state: latest
     - name: Enable service nginx, and not touch the state
       ansible.builtin.service:
-        name: ngix
+        name: nginx
         enabled: yes 
     - name: Start service nginx, if not started
       ansible.builtin.service:
