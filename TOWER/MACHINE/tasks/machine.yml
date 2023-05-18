@@ -1,0 +1,11 @@
+- name: SVC Control Automation Started
+  hosts: workernode
+  tasks:
+    - name: Print the HELLO
+      shell: |
+        echo "HELLO"
+      register: machine
+    - name: DEBUG MESSAGES
+      debug:
+        var: machine
+       
