@@ -1,0 +1,20 @@
+- name: SVC Control Automation Started
+  hosts: workernode
+  tasks:
+    - name: Add Nginx Reposiyory URL
+      ansible.builtin.yum_repository:
+        name: nginx
+        description: NGINX YUM repo
+        baseurl: http://nginx.org/packages/centos/$releasever/$basearch/   
+    - name: Install the latest version of NGINX
+      ansible.builtin.yum:
+        name: nginx
+        state: latest
+    - name: Enable service nginx, and not touch the state
+      ansible.builtin.service:
+        name: ngix
+        enabled: yes 
+    - name: Start service nginx, if not started
+      ansible.builtin.service:
+        name: nginx
+        state: started
